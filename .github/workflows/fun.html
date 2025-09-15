@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby, please say yes! 💕</title>
+    <!-- Font Awesome for professional icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(-45deg, #ffeaa7, #fab1a0, #fd79a8, #fdcb6e);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #ffeaa7, #fd79a8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-baby {
+            font-size: 50px;
+            animation: babyBounce 1.2s ease-in-out infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes babyBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            25% { transform: translateY(-15px) scale(1.1) rotate(-5deg); }
+            50% { transform: translateY(0) scale(1.2) rotate(0deg); }
+            75% { transform: translateY(-10px) scale(1.1) rotate(5deg); }
+        }
+        
+        .loading-text {
+            font-size: 18px;
+            color: #2d3436;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        /* Floating Baby Elements */
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .floating-baby {
+            position: absolute;
+            font-size: 25px;
+            animation: babyFloat 18s infinite linear;
+            opacity: 0.4;
+        }
+        
+        @keyframes babyFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 35px 25px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            box-shadow: 
+                0 6px 25px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            overflow: visible;
+        }
+        
+        .step {
+            opacity: 0;
+            transform: translateY(40px) scale(0.9);
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .step.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .step.exit {
+            opacity: 0;
+            transform: translateY(-40px) scale(1.1);
+            transition: all 0.5s ease-in;
+        }
+        
+        .baby-character {
+            font-size: 70px;
+            margin-bottom: 15px;
+            animation: babyWiggle 2.5s ease-in-out infinite;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.1));
+        }
+        
+        @keyframes babyWiggle {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1); 
+            }
+            15% { 
+                transform: translateY(-8px) rotate(-3deg) scale(1.05); 
+            }
+            30% { 
+                transform: translateY(0) rotate(2deg) scale(1); 
+            }
+            45% { 
+                transform: translateY(-5px) rotate(-1deg) scale(1.02); 
+            }
+            60% { 
+                transform: translateY(0) rotate(1deg) scale(1); 
+            }
+            75% { 
+                transform: translateY(-3px) rotate(-2deg) scale(1.01); 
+            }
+        }
+        
+        h1 {
+            background: linear-gradient(45deg, #e17055, #fd79a8, #fdcb6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-size: 1.9em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: textGlow 3s ease-in-out infinite alternate;
+            line-height: 1.2;
+        }
+        
+        @keyframes textGlow {
+            from { filter: drop-shadow(0 0 3px rgba(225, 112, 85, 0.5)); }
+            to { filter: drop-shadow(0 0 8px rgba(253, 121, 168, 0.5)); }
+        }
+        
+        .question {
+            color: #1e272e;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+            font-weight: 500;
+            line-height: 1.5;
+            opacity: 1;
+            animation: slideInUp 0.6s ease-out 0.3s both;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            position: relative;
+            height: 70px;
+            align-items: center;
+            animation: slideInUp 0.6s ease-out 0.5s both;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 35px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-width: 80px;
+        }
+
+        .btn-icon { font-size: 1em; line-height: 1; }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.4s;
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        .yes-btn {
+            background: linear-gradient(135deg, #00b894, #00cec9, #55a3ff);
+            color: white;
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
+            transform: perspective(800px) rotateX(0deg);
+        }
+        
+        .yes-btn:hover {
+            transform: perspective(800px) rotateX(-8deg) translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(0, 184, 148, 0.6);
+        }
+        
+        .yes-btn:active {
+            transform: perspective(800px) rotateX(-4deg) translateY(-1px) scale(1.02);
+        }
+        
+        .no-btn {
+            background: linear-gradient(135deg, #fd79a8, #fdcb6e, #fab1a0);
+            color: white;
+            box-shadow: 0 6px 20px rgba(253, 121, 168, 0.4);
+            transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        
+        .no-btn:hover {
+            transform: perspective(800px) rotateX(-8deg) translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(253, 121, 168, 0.6);
+        }
+        
+        .smart-no-btn {
+            position: absolute !important;
+            transition: all 0.12s ease-out;
+            z-index: 100;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .final-message {
+            animation: finalEntry 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        @keyframes finalEntry {
+            0% {
+                opacity: 0;
+                transform: scale(0.2) rotate(-180deg);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1) rotate(-90deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        .hearts-explosion {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+        }
+        
+        .heart-particle {
+            position: absolute;
+            font-size: 20px;
+            pointer-events: none;
+            animation: heartExplosion 3s ease-out forwards;
+        }
+        
+        @keyframes heartExplosion {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(0) rotate(0deg);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(var(--tx), var(--ty)) scale(1) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0) rotate(360deg);
+            }
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { 
+                opacity: 0; 
+                transform: scale(0);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+        }
+        
+        /* Ultra Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 30px 20px;
+                max-width: 380px;
+            }
+            
+            .baby-character {
+                font-size: 60px;
+            }
+            
+            h1 {
+                font-size: 1.7em;
+            }
+            
+            button {
+                padding: 11px 22px;
+                font-size: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 25px 15px;
+                max-width: 100%;
+                width: 95%;
+                border-radius: 20px;
+            }
+            
+            .baby-character {
+                font-size: 50px;
+                margin-bottom: 12px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 12px;
+            }
+            
+            .question {
+                font-size: 1em;
+                margin-bottom: 20px;
+            }
+            
+            .buttons {
+                gap: 12px;
+                height: 60px;
+            }
+            
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+                border-radius: 25px;
+                min-width: 70px;
+            }
+            
+            .loading-baby {
+                font-size: 40px;
+            }
+            
+            .loading-text {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 12px;
+                width: 98%;
+                border-radius: 18px;
+            }
+            
+            .baby-character {
+                font-size: 45px;
+                margin-bottom: 10px;
+            }
+            
+            h1 {
+                font-size: 1.3em;
+                margin-bottom: 10px;
+                line-height: 1.1;
+            }
+            
+            .question {
+                font-size: 0.95em;
+                margin-bottom: 18px;
+            }
+            
+            .buttons {
+                gap: 10px;
+                height: 55px;
+            }
+            
+            button {
+                padding: 9px 18px;
+                font-size: 13px;
+                border-radius: 22px;
+                min-width: 65px;
+                letter-spacing: 0.3px;
+            }
+            
+            .loading-baby {
+                font-size: 35px;
+            }
+            
+            .loading-text {
+                font-size: 15px;
+            }
+            
+            .floating-baby {
+                font-size: 18px;
+            }
+            
+            .heart-particle {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .container {
+                padding: 18px 10px;
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .baby-character {
+                font-size: 40px;
+                margin-bottom: 8px;
+            }
+            
+            h1 {
+                font-size: 1.2em;
+                margin-bottom: 8px;
+            }
+            
+            .question {
+                font-size: 0.9em;
+                margin-bottom: 15px;
+            }
+            
+            .buttons {
+                gap: 8px;
+                height: 50px;
+            }
+            
+            button {
+                padding: 8px 15px;
+                font-size: 12px;
+                border-radius: 20px;
+                min-width: 60px;
+            }
+            
+            .loading-text {
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-height: 600px) and (orientation: landscape) {
+            .container {
+                padding: 15px;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            
+            .baby-character {
+                font-size: 35px;
+                margin-bottom: 8px;
+            }
+            
+            h1 {
+                font-size: 1.3em;
+                margin-bottom: 8px;
+            }
+            
+            .question {
+                font-size: 0.85em;
+                margin-bottom: 12px;
+            }
+            
+            .buttons {
+                height: 45px;
+                gap: 10px;
+            }
+            
+            button {
+                padding: 7px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div style="text-align: center;">
+            <div class="loading-baby">💕</div>
+            <div class="loading-text">Baby is getting ready...</div>
+        </div>
+    </div>
+    
+    <!-- Floating Baby Elements -->
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <!-- Hearts Explosion Container -->
+    <div class="hearts-explosion" id="heartsExplosion"></div>
+    
+    <div class="container">
+        <div id="step1" class="step active">
+            <div class="baby-character">💕</div>
+            <h1>Baby, do you love me?</h1>
+            <div class="question">I'm so shy to ask! 🥺</div>
+            <div class="buttons">
+                <button class="yes-btn" onclick="showFinal()"><i class="fa-solid fa-check btn-icon"></i>Yes</button>
+                <button class="no-btn" onclick="goToStep(2)">No</button>
+            </div>
+        </div>
+        
+        <div id="step2" class="step hidden">
+            <div class="baby-character">🥺</div>
+            <h1>Baby, please think again!</h1>
+            <div class="question">Are you absolutely sure? 🤔💭</div>
+            <div class="buttons">
+                <button class="yes-btn" onclick="showFinal()"><i class="fa-solid fa-check btn-icon"></i>Yes</button>
+                <button class="no-btn" onclick="goToStep(3)"><i class="fa-solid fa-xmark btn-icon"></i>No</button>
+            </div>
+        </div>
+        
+        <div id="step3" class="step hidden">
+            <div class="baby-character">🐻</div>
+            <h1>Baby, look how cute I am!</h1>
+            <div class="question">How can you say no to such a cute baby? 🥰</div>
+            <div class="buttons">
+                <button class="yes-btn" onclick="showFinal()"><i class="fa-solid fa-check btn-icon"></i>Yes</button>
+                <button class="no-btn" onclick="goToStep(4)"><i class="fa-solid fa-xmark btn-icon"></i>No</button>
+            </div>
+        </div>
+        
+        <div id="step4" class="step hidden">
+            <div class="baby-character">😭</div>
+            <h1>Baby, think one more time!</h1>
+            <div class="question">I'll cry, please say yes! 😢💔</div>
+            <div class="buttons">
+                <button class="yes-btn" onclick="showFinal()"><i class="fa-solid fa-check btn-icon"></i>Yes</button>
+                <button class="no-btn" onclick="goToStep(5)"><i class="fa-solid fa-xmark btn-icon"></i>No</button>
+            </div>
+        </div>
+        
+        <div id="step5" class="step hidden">
+            <div class="baby-character">🥺</div>
+            <h1>Baby, please say yes!</h1>
+            <div class="question">Why so stubborn? Now you must say yes! 😤💕</div>
+            <div class="buttons">
+                <button class="yes-btn" onclick="showFinal()"><i class="fa-solid fa-check btn-icon"></i>Yes</button>
+                <button class="no-btn smart-no-btn" id="smartNoBtn"><i class="fa-solid fa-xmark btn-icon"></i>No</button>
+            </div>
+        </div>
+        
+        <div id="final" class="step hidden final-message">
+            <div class="baby-character">😘💕</div>
+            <h1>Hehehehe! I knew it!</h1>
+            <div class="question">Baby, you're the best! I love you so much! 💕✨🎉</div>
+            <button class="yes-btn" onclick="allowExitAndLeave()" style="margin-top: 15px;"><i class="fa-solid fa-arrow-left btn-icon"></i>Back</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let mouseX = 0;
+        let mouseY = 0;
+        let smartBtnX = 0;
+        let smartBtnY = 0;
+        // Exit-control flags and handlers
+        let allowExit = false;
+        let beforeUnloadHandler = null;
+        
+        // Preloader
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('preloader').style.display = 'none';
+                    createFloatingBabies();
+                    createSparkles();
+                    // Start exit guards once app is ready
+                    setupExitGuards();
+                }, 500);
+            }, 2500);
+        });
+        
+        // Mouse tracking
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            if (currentStep === 5) {
+                updateSmartButton();
+            }
+        });
+        
+        // Touch tracking for mobile
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
+                
+                if (currentStep === 5) {
+                    updateSmartButton();
+                }
+            }
+        });
+        
+        function goToStep(stepNum) {
+            const currentStepEl = document.getElementById(`step${currentStep}`);
+            const nextStepEl = document.getElementById(`step${stepNum}`);
+            
+            // Exit animation for current step
+            currentStepEl.classList.add('exit');
+            
+            setTimeout(() => {
+                currentStepEl.classList.add('hidden');
+                currentStepEl.classList.remove('active', 'exit');
+                
+                // Enter animation for next step
+                nextStepEl.classList.remove('hidden');
+                setTimeout(() => {
+                    nextStepEl.classList.add('active');
+                }, 50);
+                
+                currentStep = stepNum;
+                
+                if (stepNum === 5) {
+                    initSmartButton();
+                }
+            }, 350);
+        }
+
+        // ================= Exit Guard System =================
+        function setupExitGuards() {
+            // beforeunload prompt (cannot be fully blocked, but warns user)
+            beforeUnloadHandler = (e) => {
+                if (!allowExit) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                    return '';
+                }
+            };
+            window.addEventListener('beforeunload', beforeUnloadHandler);
+            
+            // Trap history back navigation
+            try {
+                history.pushState(null, '', document.URL);
+                window.addEventListener('popstate', () => {
+                    if (!allowExit) {
+                        history.pushState(null, '', document.URL);
+                    }
+                });
+            } catch (_) {}
+
+            // Block common leave shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (allowExit) return;
+                const tag = (e.target && e.target.tagName) || '';
+                const typing = ['INPUT','TEXTAREA','SELECT'].includes(tag) || (e.target && e.target.isContentEditable);
+                const isRefresh = e.key === 'F5' || (e.key.toLowerCase() === 'r' && (e.ctrlKey || e.metaKey));
+                const isBackCombo = (e.altKey && e.key === 'ArrowLeft');
+                const isBackspaceNav = (e.key === 'Backspace' && !typing);
+                if (isRefresh || isBackCombo || isBackspaceNav) {
+                    e.preventDefault();
+                }
+            }, { capture: true });
+        }
+
+        function allowExitAndLeave() {
+            // Allow leaving and remove guards
+            allowExit = true;
+            if (beforeUnloadHandler) window.removeEventListener('beforeunload', beforeUnloadHandler);
+            // Try navigating back; if no history, go to about:blank
+            if (history.length > 1) {
+                history.back();
+            } else {
+                location.href = 'about:blank';
+            }
+        }
+        
+        function showFinal() {
+            const currentStepEl = document.getElementById(`step${currentStep}`);
+            const finalEl = document.getElementById('final');
+            
+            currentStepEl.classList.add('exit');
+            
+            setTimeout(() => {
+                currentStepEl.classList.add('hidden');
+                currentStepEl.classList.remove('active', 'exit');
+                
+                finalEl.classList.remove('hidden');
+                setTimeout(() => {
+                    finalEl.classList.add('active');
+                    createHeartsExplosion();
+                    celebrationMode();
+                }, 50);
+            }, 350);
+        }
+        
+        function restart() {
+            const finalEl = document.getElementById('final');
+            const step1El = document.getElementById('step1');
+            
+            finalEl.classList.add('exit');
+            
+            setTimeout(() => {
+                finalEl.classList.add('hidden');
+                finalEl.classList.remove('active', 'exit');
+                
+                step1El.classList.remove('hidden');
+                setTimeout(() => {
+                    step1El.classList.add('active');
+                }, 50);
+                
+                currentStep = 1;
+                resetSmartButton();
+            }, 350);
+        }
+        
+        function initSmartButton() {
+            const smartBtn = document.getElementById('smartNoBtn');
+            
+            // Position button initially
+            smartBtnX = 0;
+            smartBtnY = 0;
+            smartBtn.style.transform = `translate(${smartBtnX}px, ${smartBtnY}px)`;
+        }
+        
+        function updateSmartButton() {
+            const smartBtn = document.getElementById('smartNoBtn');
+            if (!smartBtn || currentStep !== 5) return;
+            
+            const btnRect = smartBtn.getBoundingClientRect();
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
+            
+            const distance = Math.sqrt(Math.pow(mouseX - btnCenterX, 2) + Math.pow(mouseY - btnCenterY, 2));
+            
+            // Responsive danger zone
+            let dangerZone = 120;
+            if (window.innerWidth <= 480) {
+                dangerZone = 80; // Smaller danger zone on mobile
+            } else if (window.innerWidth <= 768) {
+                dangerZone = 100;
+            }
+            
+            if (distance < dangerZone) {
+                // Calculate escape direction (opposite to mouse)
+                const angle = Math.atan2(btnCenterY - mouseY, btnCenterX - mouseX);
+                const escapeDistance = dangerZone - distance + 40;
+                
+                const newX = smartBtnX + Math.cos(angle) * escapeDistance * 0.4;
+                const newY = smartBtnY + Math.sin(angle) * escapeDistance * 0.4;
+                
+                // Responsive boundary limits
+                let maxX = 150;
+                let maxY = 80;
+                if (window.innerWidth <= 480) {
+                    maxX = 100;
+                    maxY = 50;
+                } else if (window.innerWidth <= 768) {
+                    maxX = 120;
+                    maxY = 60;
+                }
+                
+                smartBtnX = Math.max(-maxX, Math.min(maxX, newX));
+                smartBtnY = Math.max(-maxY, Math.min(maxY, newY));
+                
+                smartBtn.style.transform = `translate(${smartBtnX}px, ${smartBtnY}px)`;
+            }
+        }
+        
+        function resetSmartButton() {
+            const smartBtn = document.getElementById('smartNoBtn');
+            smartBtnX = 0;
+            smartBtnY = 0;
+            if (smartBtn) {
+                smartBtn.style.transform = `translate(0px, 0px)`;
+            }
+        }
+        
+        function createFloatingBabies() {
+            const container = document.getElementById('floatingElements');
+            const babyEmojis = ['', '', '🧸', '💕', '🧸💖', '✨', '💕', '🎈', '⭐', '🌟', '💫🧸', '✨'];
+            
+            setInterval(() => {
+                const baby = document.createElement('div');
+                baby.className = 'floating-baby';
+                baby.innerHTML = babyEmojis[Math.floor(Math.random() * babyEmojis.length)];
+                baby.style.left = Math.random() * 100 + 'vw';
+                baby.style.animationDelay = Math.random() * 2 + 's';
+                baby.style.animationDuration = (Math.random() * 8 + 15) + 's';
+                container.appendChild(baby);
+                
+                setTimeout(() => {
+                    baby.remove();
+                }, 23000);
+            }, 1200);
+        }
+        
+        function createHeartsExplosion() {
+            const container = document.getElementById('heartsExplosion');
+            const babyHearts = ['💕', '💖', '💗', '💝', '💞', '🧸💕', '✨', '💕✨'];
+            
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-particle';
+                heart.innerHTML = babyHearts[Math.floor(Math.random() * babyHearts.length)];
+                
+                const angle = (i / 25) * Math.PI * 2;
+                const distance = Math.random() * 250 + 80;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                heart.style.setProperty('--tx', tx + 'px');
+                heart.style.setProperty('--ty', ty + 'px');
+                heart.style.left = '50%';
+                heart.style.top = '50%';
+                heart.style.animationDelay = Math.random() * 0.4 + 's';
+                
+                container.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 3000);
+            }
+        }
+        
+        function createSparkles() {
+            const container = document.querySelector('.container');
+            
+            setInterval(() => {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 1.5 + 's';
+                container.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1500);
+            }, 600);
+        }
+        
+        function celebrationMode() {
+            // Enhanced background animation
+            document.body.style.animation = 'gradientShift 4s ease infinite';
+            
+            // Extra celebration elements
+            const container = document.getElementById('floatingElements');
+            const celebrationEmojis = ['🎉', '🎊', '✨', '🌟', '⭐', '🎈', '🎁', '💖'];
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const celebration = document.createElement('div');
+                    celebration.className = 'floating-baby';
+                    celebration.innerHTML = celebrationEmojis[Math.floor(Math.random() * celebrationEmojis.length)];
+                    celebration.style.left = Math.random() * 100 + 'vw';
+                    celebration.style.fontSize = '30px';
+                    celebration.style.animationDuration = '6s';
+                    celebration.style.opacity = '0.6';
+                    container.appendChild(celebration);
+                    
+                    setTimeout(() => {
+                        celebration.remove();
+                    }, 6000);
+                }, i * 80);
+            }
+        }
+    </script>
+</body>
+</html>
