@@ -1,28 +1,34 @@
-import itertools
+import random
 import string
 
-# Fixed prefix
-prefix = "CLB"
+def generate_and_save():
+    # 1. Fixed Prefix
+    prefix = "CLB"
+    
+    # 2. Define character pools
+    # We exclude C, L, and B from the letter pool to ensure total uniqueness
+    digits_pool = list(string.digits)
+    letters_pool = [c for c in string.ascii_uppercase if c not in prefix]
+    
+    # 3. Pick 4 unique digits and 3 unique letters
+    random_digits = random.sample(digits_pool, 4)
+    random_letters = random.sample(letters_pool, 3)
+    
+    # 4. Combine and shuffle the last 7 characters
+    suffix_chars = random_digits + random_letters
+    random.shuffle(suffix_chars)
+    
+    # 5. Create the final 10-character string
+    final_string = prefix + "".join(suffix_chars)
+    
+    # 6. Save to a .txt file
+    try:
+        with open("output.txt", "w") as file:
+            file.write(final_string)
+        print(f"Success! String '{final_string}' saved to output.txt")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
-# Allowed characters: CAPITAL letters + digits
-chars = string.ascii_uppercase + string.digits
-
-remaining_length = 7
-output_file = "CLB_2LETTER_REPEAT_ALLOWED.txt"
-
-def valid_word(word):
-    for i in range(len(word) - 2):
-        # If three consecutive letters are same → invalid
-        if word[i].isalpha() and word[i+1].isalpha() and word[i+2].isalpha():
-            if word[i] == word[i+1] == word[i+2]:
-                return False
-    return True
-
-with open(output_file, "w") as f:
-    for combo in itertools.product(chars, repeat=remaining_length):
-        full_word = prefix + "".join(combo)
-        if valid_word(full_word):
-            f.write(full_word + "\n")
-
-print("Wordlist generated successfully!")
-print("Saved as:", output_file)
+if __name__ == "__main__":
+    generate_and_save()
+    
