@@ -1,34 +1,45 @@
 import random
 import string
+import sys
 
-def generate_and_save():
-    # 1. Fixed Prefix
+def generate_infinite_list(filename="wordlist.txt"):
     prefix = "CLB"
+    generated_count = 0
     
-    # 2. Define character pools
-    # We exclude C, L, and B from the letter pool to ensure total uniqueness
-    digits_pool = list(string.digits)
-    letters_pool = [c for c in string.ascii_uppercase if c not in prefix]
+    print(f"Generating strings into {filename}...")
+    print("Press Ctrl+C to stop at any time.")
     
-    # 3. Pick 4 unique digits and 3 unique letters
-    random_digits = random.sample(digits_pool, 4)
-    random_letters = random.sample(letters_pool, 3)
-    
-    # 4. Combine and shuffle the last 7 characters
-    suffix_chars = random_digits + random_letters
-    random.shuffle(suffix_chars)
-    
-    # 5. Create the final 10-character string
-    final_string = prefix + "".join(suffix_chars)
-    
-    # 6. Save to a .txt file
     try:
-        with open("output.txt", "w") as file:
-            file.write(final_string)
-        print(f"Success! String '{final_string}' saved to output.txt")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+        # 'a' opens the file for appending; 'w' would overwrite it
+        with open(filename, "a") as f:
+            while True:
+                # 1. Define pools
+                digits_pool = list(string.digits)
+                letters_pool = [c for c in string.ascii_uppercase if c not in prefix]
+                
+                # 2. Pick unique characters (4 digits, 3 letters)
+                random_digits = random.sample(digits_pool, 4)
+                random_letters = random.sample(letters_pool, 3)
+                
+                # 3. Mix and combine
+                suffix = random_digits + random_letters
+                random.shuffle(suffix)
+                
+                # 4. Write to file immediately
+                final_string = prefix + "".join(suffix)
+                f.write(final_string + "\n")
+                
+                generated_count += 1
+                
+                # Visual feedback every 1000 strings
+                if generated_count % 1000 == 0:
+                    print(f"Total generated: {generated_count}", end="\r")
+                    
+    except KeyboardInterrupt:
+        print(f"\nStopped by user. Total strings added to {filename}: {generated_count}")
+        sys.exit()
 
 if __name__ == "__main__":
-    generate_and_save()
+    generate_infinite_list()
+    
     
