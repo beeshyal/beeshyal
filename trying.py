@@ -1,18 +1,28 @@
-import subprocess
+import itertools
+import string
 
-# Read password from file
-with open("clb.txt", "r") as f:
-    wifi_password = f.read().strip()
+# Fixed prefix
+prefix = "CLB"
 
-wifi_name = "sumnima56_fpkhr"
+# Allowed characters: CAPITAL letters + digits
+chars = string.ascii_uppercase + string.digits
 
-# Connect using nmcli
-command = ["nmcli", "dev", "wifi", "connect", wifi_name, "password", wifi_password]
+remaining_length = 7
+output_file = "CLB_2LETTER_REPEAT_ALLOWED.txt"
 
-try:
-    output = subprocess.check_output(command, stderr=subprocess.STDOUT)
-    print("Connected Successfully!")
-    print(output.decode())
-except subprocess.CalledProcessError as e:
-    print("Connection Failed!")
-    print(e.output.decode())
+def valid_word(word):
+    for i in range(len(word) - 2):
+        # If three consecutive letters are same → invalid
+        if word[i].isalpha() and word[i+1].isalpha() and word[i+2].isalpha():
+            if word[i] == word[i+1] == word[i+2]:
+                return False
+    return True
+
+with open(output_file, "w") as f:
+    for combo in itertools.product(chars, repeat=remaining_length):
+        full_word = prefix + "".join(combo)
+        if valid_word(full_word):
+            f.write(full_word + "\n")
+
+print("Wordlist generated successfully!")
+print("Saved as:", output_file)
