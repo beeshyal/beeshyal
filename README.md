@@ -1,8 +1,8 @@
 - 👋 Hi, I’m @Bishal Acharya
 - 👀 I’m interested in web designing and ethical research 
 - 🌱 I’m currently learning ethical hacking 
-- 💞️ I’m looking to collaborate on aircrack ng
-- 📫 you can reach me at aacharyabisha74@gmail.com
+- 💞️ I’m looking to collaborate on linux and websites
+- 📫 you can reach me at www.bishal4.com.np
 - 😄 Pronouns: nefoli#nepali
 - ⚡ Fun fact: beeshyal
 
